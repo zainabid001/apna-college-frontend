@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
 
     if (token) {
         if (authPages.some((p) => pathname.startsWith(p))) {
-            return NextResponse.redirect(new URL("/home", request.url));
+            return NextResponse.redirect(new URL("/", request.url));
         }
     } else {
         if (protectedRoutes.some((p) => pathname.startsWith(p))) {
@@ -29,3 +29,4 @@ export const config = {
         // "/topics/:path*",
     ],
 };
+
