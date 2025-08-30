@@ -28,7 +28,7 @@ export default function TopicsPage() {
                             const total = topic.subTopics?.length || 0;
                             // Count levels
                             const levelCount = topic.subTopics?.reduce(
-                                (acc, sub) => {
+                                (acc: any, sub: any) => {
                                     acc[sub.level] = (acc[sub.level] || 0) + 1;
                                     return acc;
                                 },
@@ -83,3 +83,4 @@ export default function TopicsPage() {
         </>
     );
 }
+
