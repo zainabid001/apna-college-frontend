@@ -10,9 +10,31 @@ const fetchTopics = async () => {
 
 export default function TopicsPage() {
     const [topics, setTopics] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
     useEffect(() => {
-        fetchTopics().then(data => setTopics(data?.topics));
+        // Fetch topics and update the state
+        fetchTopics().then((data) => {
+            setTopics(data?.topics || []); // Handle missing topics gracefully
+            setLoading(false); // Set loading to false after data is fetched
+        });
     }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+                <div className="text-white text-lg">Loading topics...</div>
+            </div>
+        );
+    }
+
+    if (topics.length === 0) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+                <div className="text-white text-lg">No topics available at the moment.</div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -60,12 +82,11 @@ export default function TopicsPage() {
                                                 </div>
                                                 <div className="w-full bg-gray-200 rounded-full h-3">
                                                     <div
-                                                        className={
-                                                            level === "easy"
-                                                                ? "bg-green-500 h-3 rounded-full"
-                                                                : level === "medium"
-                                                                    ? "bg-yellow-400 h-3 rounded-full"
-                                                                    : "bg-red-500 h-3 rounded-full"
+                                                        className={level === "easy"
+                                                            ? "bg-green-500 h-3 rounded-full"
+                                                            : level === "medium"
+                                                            ? "bg-yellow-400 h-3 rounded-full"
+                                                            : "bg-red-500 h-3 rounded-full"
                                                         }
                                                         style={{ width: `${levelPercentage[level]}%` }}
                                                     ></div>
@@ -79,8 +100,6 @@ export default function TopicsPage() {
                     </div>
                 </div>
             </div>
-
         </>
     );
 }
-
